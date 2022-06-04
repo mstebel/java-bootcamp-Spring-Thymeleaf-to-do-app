@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title='Formularz')">
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<header th:text="${mode} == 'edit' ?  'Edycja zadania' : 'Dodanie zadania'"></header>
+<main class="container">
+    <nav th:replace="fragments::nav"></nav>
+    <form th:method="post" th:action="${mode == 'edit' ? '/edit' : '/add'}"
+          th:object="${task}">
+        <input type="hidden" th:field="*{id}"/>
+        <label for="category">Kategoria zadania</label>
+        <div>
+            <select required id="category" th:field="*{taskCategory}" class="form-select"
+                    aria-label="Default select example">
+                <option hidden value="">Wybierz kategorię</option>
+                <option th:each="category: ${T(pl.ms.todoapp.model.TaskCategory).values()}"
+                        th:value="${category.name()}"
+                        th:text="${category.toString()}"></option>
+            </select>
+        </div>
+        <label for="name">Nazwa zadania</label>
+        <div class="form-floating">
+            <input required th:field="*{name}" type="text" id="name">
+        </div>
+        <label for="description">Opis zadania</label>
+        <div class="form-floating">
+            <textarea required th:field="*{description}" class="form-control" id="description"></textarea>
+        </div>
+        <label for="date">Termin wykonania</label>
+        <div>
+            <input required class="form-floating" th:field="*{deadline}" type="date" id="date"/>
+        </div>
+        <input class="btn btn-warning submit-button" th:value = "${mode} == 'edit' ?  'Edytuj' : 'Dodaj'" type="submit">
+    </form>
+</main>
+</body>
+</html>

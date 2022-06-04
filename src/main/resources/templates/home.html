@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title='Strona główna')">
+    <title>Strona Główna</title>
+</head>
+<body>
+<header th:replace="fragments::header(header = 'Kalendarz zadań')"></header>
+<main class="container">
+    <nav th:replace="fragments::nav"></nav>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Zrobione</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Opis</th>
+            <th scope="col">Termin</th>
+            <th scope="col">Kategoria</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task: ${tasks}">
+            <td>
+                <form method="post" th:action="@{|/${task.id}|}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" th:onclick="submit()">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        </label>
+                        </div>
+                </form>
+            </td>
+            <td th:text="${task.name}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.deadline}"></td>
+            <td th:text="${task.taskCategory}"></td>
+            <td>
+                <a th:href="|/edit?id=${task.id}|">Edytuj</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
